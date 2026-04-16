@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
 // The 7 Wonders wonders list
 export const WONDERS = [
@@ -36,9 +36,10 @@ export const gameParticipants = sqliteTable("game_participants", {
   gameId: integer("game_id")
     .notNull()
     .references(() => games.id, { onDelete: "cascade" }),
-  playerId: integer("player_id")
-    .notNull()
-    .references(() => players.id),
+  playerId: integer("player_id").references(() => players.id, {
+    onDelete: "set null",
+  }),
+  playerName: text("player_name").notNull(), // denormalized name snapshot
   wonder: text("wonder").notNull(),
   score: integer("score").notNull(),
   rank: integer("rank").notNull(), // 1 = winner
@@ -79,5 +80,15 @@ export type WonderStats = {
 };
 
 export type GameWithParticipants = Game & {
-  participants: (GameParticipant & { player: Player })[];
+  participants: GameParticipant[];
+};
+
+// Serialized versions for client components (Date -> string after JSON serialization)
+export type SerializedParticipant = Omit<GameParticipant, "createdAt"> & {
+  createdAt?: string | null;
+};
+export type SerializedGame = Omit<Game, "playedAt" | "createdAt"> & {
+  playedAt: string | null;
+  createdAt: string | null;
+  participants: SerializedParticipant[];
 };

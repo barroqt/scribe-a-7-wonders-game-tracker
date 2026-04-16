@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { players, gameParticipants } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import PlayersClient from "./PlayersClient";
 
 async function getPlayersWithGameCount() {

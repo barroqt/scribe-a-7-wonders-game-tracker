@@ -2,30 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-type ParticipantWithPlayer = {
-  id: number;
-  gameId: number;
-  playerId: number;
-  wonder: string;
-  score: number;
-  rank: number;
-  player: {
-    id: number;
-    name: string;
-    createdAt: Date | null;
-  };
-};
-
-type GameWithParticipants = {
-  id: number;
-  playedAt: Date | null;
-  createdAt: Date | null;
-  participants: ParticipantWithPlayer[];
-};
+import type { GameRow } from "./page";
 
 type Props = {
-  initialGames: GameWithParticipants[];
+  initialGames: GameRow[];
 };
 
 function RankBadge({ rank }: { rank: number }) {
@@ -40,7 +20,7 @@ function RankBadge({ rank }: { rank: number }) {
   return <span className={cls}>{rank}</span>;
 }
 
-function formatDate(date: Date | null) {
+function formatDate(date: Date | string | null) {
   if (!date) return "Unknown date";
   return new Date(date).toLocaleDateString("en-GB", {
     day: "2-digit",
@@ -126,7 +106,7 @@ export default function HistoryClient({ initialGames }: Props) {
                       <div style={{ color: "#aaa8a0", fontSize: "0.8rem", marginTop: "0.125rem" }}>
                         <span style={{ color: "#dfbc5e" }}>✦</span> Winner:{" "}
                         <span style={{ color: "#e6e0ae", fontWeight: "bold" }}>
-                          {winner.player.name}
+                          {winner.playerName}
                         </span>{" "}
                         <span style={{ color: "#6a6860" }}>({winner.wonder})</span>
                         {" "}— {winner.score} pts
@@ -168,7 +148,7 @@ export default function HistoryClient({ initialGames }: Props) {
                             fontSize: "0.9rem",
                           }}
                         >
-                          {p.player.name}
+                          {p.playerName}
                         </span>
                       </div>
                       <div className="flex items-center gap-4">

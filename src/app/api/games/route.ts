@@ -13,21 +13,8 @@ export async function GET() {
     const result = await Promise.all(
       allGames.map(async (game) => {
         const participants = await db
-          .select({
-            id: gameParticipants.id,
-            gameId: gameParticipants.gameId,
-            playerId: gameParticipants.playerId,
-            wonder: gameParticipants.wonder,
-            score: gameParticipants.score,
-            rank: gameParticipants.rank,
-            player: {
-              id: players.id,
-              name: players.name,
-              createdAt: players.createdAt,
-            },
-          })
+          .select()
           .from(gameParticipants)
-          .innerJoin(players, eq(gameParticipants.playerId, players.id))
           .where(eq(gameParticipants.gameId, game.id))
           .orderBy(gameParticipants.rank);
 
@@ -92,7 +79,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify all players exist
+    // Verify all players exist and fetch their names
     const playerRecords = await Promise.all(
       playerIds.map((id) =>
         db.select().from(players).where(eq(players.id, id))
@@ -105,6 +92,13 @@ export async function POST(request: NextRequest) {
           { status: 404 }
         );
       }
+    }
+
+    // Build a map of playerId -> playerName
+    const playerNameMap = new Map<number, string>();
+    for (const records of playerRecords) {
+      const p = records[0];
+      playerNameMap.set(p.id, p.name);
     }
 
     // Calculate ranks (highest score wins, ties share rank)
@@ -123,11 +117,12 @@ export async function POST(request: NextRequest) {
       .values({ playedAt: gameDate })
       .returning();
 
-    // Insert participants
+    // Insert participants with denormalized player name
     await db.insert(gameParticipants).values(
       participantsWithRank.map((p) => ({
         gameId: newGame.id,
         playerId: p.playerId,
+        playerName: playerNameMap.get(p.playerId) ?? "Unknown",
         wonder: p.wonder,
         score: p.score,
         rank: p.rank,
