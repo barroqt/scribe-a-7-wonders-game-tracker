@@ -1,20 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import NavBar from "@/components/NavBar";
 
 export const metadata: Metadata = {
-  title: "Next.js Template",
-  description: "A minimal Next.js starter template",
+  title: "Scribe — 7 Wonders Tracker",
+  description: "Track your 7 Wonders board game statistics",
 };
 
 export default function RootLayout({
@@ -24,10 +14,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="min-h-screen flex flex-col">
+        <NavBar />
+        <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+          {children}
+        </main>
+        <footer className="text-center py-4 text-sm" style={{ color: "#4a4840", borderTop: "1px solid #2a2820" }}>
+          <span style={{ color: "#dfbc5e" }}>✦</span> Scribe &mdash; 7 Wonders Tracker <span style={{ color: "#dfbc5e" }}>✦</span>
+        </footer>
       </body>
     </html>
   );

@@ -1,1 +1,299 @@
 @import "tailwindcss";
+
+@theme {
+  --color-sand: #e6e0ae;
+  --color-gold: #dfbc5e;
+  --color-crimson: #d73c37;
+  --color-blood: #b51f09;
+  --color-stone-950: #0f0e0c;
+  --color-stone-900: #1a1916;
+  --color-stone-800: #2a2820;
+  --color-stone-700: #3a3830;
+  --color-stone-600: #4a4840;
+  --color-stone-500: #6a6860;
+  --color-stone-400: #8a8880;
+  --color-stone-300: #aaa8a0;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #1a1916;
+    color: #e6e0ae;
+    font-family: Georgia, "Times New Roman", serif;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: 0.05em;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1a1916;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #dfbc5e;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #e6e0ae;
+  }
+}
+
+@layer components {
+  .scribe-card {
+    background: #2a2820;
+    border: 1px solid #3a3830;
+    border-radius: 4px;
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .scribe-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(223,188,94,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .scribe-btn-primary {
+    background: linear-gradient(135deg, #dfbc5e, #b8963e);
+    color: #1a1916;
+    font-weight: 700;
+    font-family: Georgia, serif;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1.25rem;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+  }
+  .scribe-btn-primary:hover {
+    background: linear-gradient(135deg, #e6e0ae, #dfbc5e);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(223,188,94,0.3);
+  }
+  .scribe-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .scribe-btn-danger {
+    background: transparent;
+    color: #d73c37;
+    border: 1px solid #d73c37;
+    font-family: Georgia, serif;
+    padding: 0.35rem 0.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .scribe-btn-danger:hover {
+    background: #d73c37;
+    color: #e6e0ae;
+  }
+
+  .scribe-btn-ghost {
+    background: transparent;
+    color: #e6e0ae;
+    border: 1px solid #3a3830;
+    font-family: Georgia, serif;
+    padding: 0.5rem 1.25rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .scribe-btn-ghost:hover {
+    border-color: #dfbc5e;
+    color: #dfbc5e;
+  }
+
+  .scribe-input {
+    background: #1a1916;
+    border: 1px solid #3a3830;
+    border-radius: 3px;
+    color: #e6e0ae;
+    padding: 0.5rem 0.75rem;
+    font-family: Georgia, serif;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .scribe-input:focus {
+    border-color: #dfbc5e;
+    box-shadow: 0 0 0 2px rgba(223,188,94,0.15);
+  }
+  .scribe-input::placeholder {
+    color: #6a6860;
+  }
+
+  .scribe-select {
+    background: #1a1916;
+    border: 1px solid #3a3830;
+    border-radius: 3px;
+    color: #e6e0ae;
+    padding: 0.5rem 0.75rem;
+    font-family: Georgia, serif;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: border-color 0.2s;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23dfbc5e'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2rem;
+    cursor: pointer;
+  }
+  .scribe-select:focus {
+    border-color: #dfbc5e;
+    box-shadow: 0 0 0 2px rgba(223,188,94,0.15);
+  }
+
+  .scribe-label {
+    display: block;
+    color: #aaa8a0;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.375rem;
+    font-family: Georgia, serif;
+  }
+
+  .scribe-divider {
+    border: none;
+    border-top: 1px solid #3a3830;
+    margin: 1.5rem 0;
+  }
+
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    font-family: Georgia, serif;
+  }
+  .rank-badge.rank-1 {
+    background: linear-gradient(135deg, #dfbc5e, #b8963e);
+    color: #1a1916;
+  }
+  .rank-badge.rank-2 {
+    background: #4a4840;
+    color: #aaa8a0;
+  }
+  .rank-badge.rank-3 {
+    background: #3a2810;
+    color: #8a6030;
+  }
+  .rank-badge.rank-other {
+    background: #2a2820;
+    color: #6a6860;
+    border: 1px solid #3a3830;
+  }
+
+  .stat-bar-container {
+    background: #1a1916;
+    border-radius: 2px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #dfbc5e, #e6e0ae);
+    transition: width 0.5s ease;
+  }
+
+  .nav-link {
+    color: #aaa8a0;
+    font-family: Georgia, serif;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border-radius: 3px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .nav-link:hover {
+    color: #dfbc5e;
+    border-color: #3a3830;
+  }
+  .nav-link.active {
+    color: #dfbc5e;
+    border-color: #dfbc5e;
+    background: rgba(223,188,94,0.05);
+  }
+
+  .ornament {
+    display: inline-block;
+    color: #dfbc5e;
+    margin: 0 0.5rem;
+    font-size: 0.7em;
+    vertical-align: middle;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #e6e0ae;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #dfbc5e;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #3a3830;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: #6a6860;
+    padding: 3rem 1rem;
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+
+  .error-msg {
+    color: #d73c37;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+
+  .success-msg {
+    color: #dfbc5e;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+}
