@@ -1,87 +1,61 @@
-# Active Context: Next.js Starter Template
+# Active Context: Scribe — 7 Wonders Tracker
 
 ## Current State
 
-**Template Status**: ✅ Ready for development
+**App Status**: ✅ Fully built and deployed
 
-The template is a clean Next.js 16 starter with TypeScript and Tailwind CSS 4. It's ready for AI-assisted expansion to build any type of application.
+Scribe is a complete 7 Wonders board game tracker. Players can be enrolled, games recorded, history viewed, and stats calculated dynamically.
 
 ## Recently Completed
 
-- [x] Base Next.js 16 setup with App Router
-- [x] TypeScript configuration with strict mode
-- [x] Tailwind CSS 4 integration
-- [x] ESLint configuration
-- [x] Memory bank documentation
-- [x] Recipe system for common features
+- [x] Drizzle ORM + SQLite (libsql via @kilocode/app-builder-db) database setup
+- [x] Schema: `players`, `games`, `game_participants` tables
+- [x] API routes: players CRUD, games CRUD, stats endpoint
+- [x] Dark antiquity theme: Georgia serif font, #e6e0ae/#dfbc5e/#d73c37/#b51f09 palette
+- [x] NavBar with active link highlighting (sticky, gold gradient top bar)
+- [x] Home page with quick stats and nav cards
+- [x] Players page: add/list/delete players with win stats
+- [x] Add Game page: 3–7 player form, wonder/player deduplication validation
+- [x] History page: all games sorted by date, delete with cascade stat recalc
+- [x] Stats page: player win rates (with per-wonder breakdown), wonder win rates
+- [x] Dev + production environment configuration (.env.example)
 
 ## Current Structure
 
 | File/Directory | Purpose | Status |
 |----------------|---------|--------|
-| `src/app/page.tsx` | Home page | ✅ Ready |
-| `src/app/layout.tsx` | Root layout | ✅ Ready |
-| `src/app/globals.css` | Global styles | ✅ Ready |
-| `.kilocode/` | AI context & recipes | ✅ Ready |
+| `src/db/schema.ts` | Drizzle schema: players, games, game_participants | ✅ |
+| `src/db/index.ts` | DB client | ✅ |
+| `src/db/migrations/` | SQL migrations | ✅ |
+| `src/app/api/players/` | GET all, POST create | ✅ |
+| `src/app/api/players/[id]/` | DELETE player | ✅ |
+| `src/app/api/games/` | GET all with participants, POST create | ✅ |
+| `src/app/api/games/[id]/` | DELETE game (cascade) | ✅ |
+| `src/app/api/stats/` | GET computed stats | ✅ |
+| `src/app/page.tsx` | Home page (server component) | ✅ |
+| `src/app/players/` | Players management | ✅ |
+| `src/app/games/new/` | Add game form | ✅ |
+| `src/app/history/` | Game history with delete | ✅ |
+| `src/app/stats/` | Stats: players + wonders tabs | ✅ |
+| `src/components/NavBar.tsx` | Sticky nav bar | ✅ |
+| `src/app/globals.css` | Antiquity theme + component classes | ✅ |
 
-## Current Focus
+## Data Model
 
-The template is ready. Next steps depend on user requirements:
+- **Player**: id, name (unique), createdAt
+- **Game**: id, playedAt, createdAt
+- **GameParticipant**: id, gameId (FK cascade), playerId (FK), wonder, score, rank
 
-1. What type of application to build
-2. What features are needed
-3. Design/branding preferences
+## Stats Calculation
 
-## Quick Start Guide
+Stats are computed on-the-fly from raw game data (no denormalized stats stored). Deletion of a game automatically recalculates all derived stats on next page load.
 
-### To add a new page:
+## Wonders
 
-Create a file at `src/app/[route]/page.tsx`:
-```tsx
-export default function NewPage() {
-  return <div>New page content</div>;
-}
-```
-
-### To add components:
-
-Create `src/components/` directory and add components:
-```tsx
-// src/components/ui/Button.tsx
-export function Button({ children }: { children: React.ReactNode }) {
-  return <button className="px-4 py-2 bg-blue-600 text-white rounded">{children}</button>;
-}
-```
-
-### To add a database:
-
-Follow `.kilocode/recipes/add-database.md`
-
-### To add API routes:
-
-Create `src/app/api/[route]/route.ts`:
-```tsx
-import { NextResponse } from "next/server";
-
-export async function GET() {
-  return NextResponse.json({ message: "Hello" });
-}
-```
-
-## Available Recipes
-
-| Recipe | File | Use Case |
-|--------|------|----------|
-| Add Database | `.kilocode/recipes/add-database.md` | Data persistence with Drizzle + SQLite |
-
-## Pending Improvements
-
-- [ ] Add more recipes (auth, email, etc.)
-- [ ] Add example components
-- [ ] Add testing setup recipe
+Alexandria, Babylon, Ephesus, Gizah, Halikarnassos, Olympia, Rhodos (7 total)
 
 ## Session History
 
 | Date | Changes |
 |------|---------|
-| Initial | Template created with base setup |
+| 2026-04-16 | Built entire Scribe app from Next.js template |
